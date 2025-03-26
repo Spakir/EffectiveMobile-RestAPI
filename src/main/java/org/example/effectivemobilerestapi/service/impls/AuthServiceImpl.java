@@ -4,11 +4,14 @@ import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.example.effectivemobilerestapi.dto.AuthResponseDto;
 import org.example.effectivemobilerestapi.dto.UserDto;
+import org.example.effectivemobilerestapi.mapper.UserMapper;
 import org.example.effectivemobilerestapi.service.interfaces.AuthService;
 import org.example.effectivemobilerestapi.service.interfaces.JwtService;
 import org.example.effectivemobilerestapi.service.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,8 +21,14 @@ import org.springframework.validation.annotation.Validated;
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
+
     private final JwtService jwtService;
+
     private final AuthenticationManager authenticationManager;
+
+    private final UserMapper userMapper;
+
+    private final UserDetailsService userDetailsService;
 
     @Override
     public AuthResponseDto register(UserDto newUser) {
@@ -28,8 +37,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         UserDto user = userService.saveUser(newUser);
-
-        String token = jwtService.generateToken(user.getEmail());
+        UserDetails userDetails = userMapper.toUserDetails(user);
+        String token = jwtService.generateToken(userDetails);
 
         return new AuthResponseDto(token);
     }
@@ -39,9 +48,8 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
 
-        UserDto foundedUser = userService.getUserByEmail(userDto.getEmail());
-
-        String token = jwtService.generateToken(foundedUser.getEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
+        String token = jwtService.generateToken(userDetails);
 
         return new AuthResponseDto(token);
     }
