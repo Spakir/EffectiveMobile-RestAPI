@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.effectivemobilerestapi.enums.Role;
 
 @AllArgsConstructor
 public class UserDto {
