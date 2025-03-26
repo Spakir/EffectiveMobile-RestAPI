@@ -13,8 +13,11 @@ spring:
       ddl-auto: update
     show-sql: true
 
-
   security:
     jwt:
-      secret-key: my-secret-key
+      secret-key: aVeryStrongAndSecureSecretKeyThatIsAtLeast32CharactersLong
       expiration-time: 86400000
+
+  liquibase:
+    enabled: true
+    change-log: /db/changelog/master-db.yaml
