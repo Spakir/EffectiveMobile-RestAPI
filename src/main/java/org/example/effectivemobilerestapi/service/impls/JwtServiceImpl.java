@@ -1,13 +1,12 @@
-package org.example.effectivemobilerestapi.service;
+package org.example.effectivemobilerestapi.service.impls;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.example.effectivemobilerestapi.service.interfaces.JwtService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -38,26 +37,28 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(String username) {
+        return generateToken(new HashMap<>(), username);
     }
 
     @Override
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
-        return buildToken(claims, userDetails, expirationTime);
+    public String generateToken(Map<String, Object> claims, String username) {
+        return buildToken(claims, username, expirationTime);
     }
 
     @Override
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        return false;
+    public boolean isTokenValid(String token, String username) {
+        String tokenUsername = extractUsername(token);
+
+        return (tokenUsername.equals(username)) && !isTokenExpired(token);
     }
 
     @Override
-    public String buildToken(Map<String, Object> claims, UserDetails userDetails, long expireTime) {
+    public String buildToken(Map<String, Object> claims,String username, long expireTime) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
-                .setSubject(userDetails.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(getKey())
                 .compact();
