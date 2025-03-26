@@ -1,7 +1,7 @@
-package org.example.effectivemobilerestapi.config;
+package org.example.effectivemobilerestapi.configs;
 
 import lombok.RequiredArgsConstructor;
-import org.example.effectivemobilerestapi.filter.JwtAuthFilter;
+import org.example.effectivemobilerestapi.filters.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

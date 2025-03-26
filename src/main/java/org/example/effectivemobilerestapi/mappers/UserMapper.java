@@ -1,8 +1,8 @@
-package org.example.effectivemobilerestapi.mapper;
+package org.example.effectivemobilerestapi.mappers;
 
-import org.example.effectivemobilerestapi.dto.Role;
+import org.example.effectivemobilerestapi.enums.Role;
 import org.example.effectivemobilerestapi.dto.UserDto;
-import org.example.effectivemobilerestapi.entity.User;
+import org.example.effectivemobilerestapi.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.security.core.GrantedAuthority;

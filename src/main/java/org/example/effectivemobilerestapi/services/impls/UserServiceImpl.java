@@ -1,14 +1,14 @@
-package org.example.effectivemobilerestapi.service.impls;
+package org.example.effectivemobilerestapi.services.impls;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.effectivemobilerestapi.dto.Role;
+import org.example.effectivemobilerestapi.enums.Role;
 import org.example.effectivemobilerestapi.dto.UserDto;
-import org.example.effectivemobilerestapi.entity.User;
-import org.example.effectivemobilerestapi.mapper.UserMapper;
-import org.example.effectivemobilerestapi.repository.UserRepository;
-import org.example.effectivemobilerestapi.service.interfaces.UserService;
+import org.example.effectivemobilerestapi.entities.User;
+import org.example.effectivemobilerestapi.mappers.UserMapper;
+import org.example.effectivemobilerestapi.repositories.UserRepository;
+import org.example.effectivemobilerestapi.services.interfaces.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
-package org.example.effectivemobilerestapi.service.impls;
+package org.example.effectivemobilerestapi.services.impls;
 
 import lombok.RequiredArgsConstructor;
-import org.example.effectivemobilerestapi.entity.User;
-import org.example.effectivemobilerestapi.repository.UserRepository;
+import org.example.effectivemobilerestapi.entities.User;
+import org.example.effectivemobilerestapi.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

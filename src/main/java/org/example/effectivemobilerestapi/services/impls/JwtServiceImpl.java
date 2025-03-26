@@ -1,11 +1,11 @@
-package org.example.effectivemobilerestapi.service.impls;
+package org.example.effectivemobilerestapi.services.impls;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.example.effectivemobilerestapi.service.interfaces.JwtService;
+import org.example.effectivemobilerestapi.services.interfaces.JwtService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

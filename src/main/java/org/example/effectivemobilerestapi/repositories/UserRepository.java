@@ -1,6 +1,6 @@
-package org.example.effectivemobilerestapi.repository;
+package org.example.effectivemobilerestapi.repositories;
 
-import org.example.effectivemobilerestapi.entity.User;
+import org.example.effectivemobilerestapi.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

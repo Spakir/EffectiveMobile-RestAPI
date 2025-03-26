@@ -1,4 +1,4 @@
-package org.example.effectivemobilerestapi.service.interfaces;
+package org.example.effectivemobilerestapi.services.interfaces;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
