@@ -7,6 +7,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.example.effectivemobilerestapi.service.interfaces.JwtService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -37,13 +39,15 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(String username) {
-        return generateToken(new HashMap<>(), username);
-    }
+    public String generateToken(UserDetails user) {
+        Map<String, Object> claims = new HashMap<>();
+        String role = user.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(null);
+        claims.put("role", role);
 
-    @Override
-    public String generateToken(Map<String, Object> claims, String username) {
-        return buildToken(claims, username, expirationTime);
+        return buildToken(claims, user.getUsername(), expirationTime);
     }
 
     @Override
@@ -54,7 +58,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String buildToken(Map<String, Object> claims,String username, long expireTime) {
+    public String buildToken(Map<String, Object> claims, String username, long expireTime) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
@@ -82,7 +86,7 @@ public class JwtServiceImpl implements JwtService {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new JwtException("Невалидный Jwt токен: " + e.getMessage());
         }
     }

@@ -1,6 +1,7 @@
 package org.example.effectivemobilerestapi.service.interfaces;
 
 import io.jsonwebtoken.Claims;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
 import java.util.Date;
@@ -13,9 +14,7 @@ public interface JwtService {
 
     <T> T extractClaim(String token, Function<Claims, T> claimsReceiver);
 
-    String generateToken(String username);
-
-    String generateToken(Map<String, Object> claims, String username);
+    String generateToken(UserDetails user);
 
     boolean isTokenValid(String token, String username);
 
