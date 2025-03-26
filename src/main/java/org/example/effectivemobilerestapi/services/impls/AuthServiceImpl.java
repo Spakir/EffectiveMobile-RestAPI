@@ -1,13 +1,13 @@
-package org.example.effectivemobilerestapi.service.impls;
+package org.example.effectivemobilerestapi.services.impls;
 
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.example.effectivemobilerestapi.dto.AuthResponseDto;
 import org.example.effectivemobilerestapi.dto.UserDto;
-import org.example.effectivemobilerestapi.mapper.UserMapper;
-import org.example.effectivemobilerestapi.service.interfaces.AuthService;
-import org.example.effectivemobilerestapi.service.interfaces.JwtService;
-import org.example.effectivemobilerestapi.service.interfaces.UserService;
+import org.example.effectivemobilerestapi.mappers.UserMapper;
+import org.example.effectivemobilerestapi.services.interfaces.AuthService;
+import org.example.effectivemobilerestapi.services.interfaces.JwtService;
+import org.example.effectivemobilerestapi.services.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,9 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
         UserDto user = userService.saveUser(newUser);
         UserDetails userDetails = userMapper.toUserDetails(user);
-        String token = jwtService.generateToken(userDetails);
-
-        return new AuthResponseDto(token);
+        return generateToken(userDetails);
     }
 
     @Override
@@ -49,8 +47,10 @@ public class AuthServiceImpl implements AuthService {
                 new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getEmail());
-        String token = jwtService.generateToken(userDetails);
+        return generateToken(userDetails);
+    }
 
-        return new AuthResponseDto(token);
+    private AuthResponseDto generateToken(UserDetails userDetails){
+        return new AuthResponseDto(jwtService.generateToken(userDetails));
     }
 }
