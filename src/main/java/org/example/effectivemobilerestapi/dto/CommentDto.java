@@ -1,6 +1,7 @@
 package org.example.effectivemobilerestapi.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class CommentDto {
 
     private String author;
 
-    @NotBlank(message = "Id задачи не может быть null")
+    @NotNull(message = "Id задачи не может быть null")
     private Long taskId;
 
     private LocalDateTime createdAt;
