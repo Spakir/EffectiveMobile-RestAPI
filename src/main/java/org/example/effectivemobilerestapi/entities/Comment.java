@@ -24,6 +24,7 @@ public class Comment {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id")
     private Task task;
