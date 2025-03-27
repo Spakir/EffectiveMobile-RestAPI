@@ -6,6 +6,7 @@ import org.example.effectivemobilerestapi.dto.CommentDto;
 import org.example.effectivemobilerestapi.services.interfaces.CommentService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
+@Validated
 public class CommentController {
 
     private final CommentService commentService;
