@@ -7,6 +7,7 @@ import lombok.Data;
 import org.example.effectivemobilerestapi.enums.Priority;
 import org.example.effectivemobilerestapi.enums.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,5 +32,5 @@ public class TaskDto {
     @NotNull(message = "Приоритет не может быть null")
     private Priority priority;
 
-    private List<CommentDto> comments;
+    private List<CommentDto> comments = new ArrayList<>();
 }
