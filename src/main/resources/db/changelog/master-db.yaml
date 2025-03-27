@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include: 
       file: classpath:db/changelog/changeset/create_users.sql
+  - include:
+      file: classpath:db/changelog/changeset/create_tasks.sql
+  - include:
+      file: classpath:db/changelog/changeset/create_comments.sql
