@@ -11,11 +11,10 @@ import org.example.effectivemobilerestapi.services.interfaces.TaskService;
 import org.example.effectivemobilerestapi.services.interfaces.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.nio.file.AccessDeniedException;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto updateTask(UserDetails user, Long id, TaskDto taskDto) throws AccessDeniedException {
+    public TaskDto updateTask(UserDetails user, Long id, TaskDto taskDto) {
         if (!isAdmin(user) && (taskDto.getExecutor() == null || !taskDto.getExecutor().equals(user.getUsername()))) {
             throw new AccessDeniedException("У вас нет прав изменять эту задачу");
         }
@@ -61,7 +60,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Long id, UserDetails user) throws AccessDeniedException {
+    public Task getTaskEntityById(Long id) {
+        return getExistTask(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTask(Long id, UserDetails user){
         if (!isAdmin(user) && !user.getUsername().equals(getTaskById(id).getExecutor())) {
             throw new AccessDeniedException("У вас нет прав изменять эту задачу");
         }
@@ -70,27 +75,52 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TaskDto getTaskById(Long id) {
-        Task existTask = taskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Задачи с данной ID не существует"));
+        Task existTask = getExistTask(id);
 
         return taskMapper.toTaskDto(existTask);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<TaskDto> getTasksByAuthor(UserDetails user, Pageable pageable) {
         Page<Task> tasks = taskRepository.findByAuthorEmail(user.getUsername(), pageable);
         return tasks.map(taskMapper::toTaskDto);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<TaskDto> getTasksByExecutor(UserDetails user, Pageable pageable) {
         Page<Task> tasks = taskRepository.findByExecutorEmail(user.getUsername(), pageable);
         return tasks.map(taskMapper::toTaskDto);
     }
 
+    @Override
+    @Transactional
+    public TaskDto changeExecutor(UserDetails user, Long taskId, String executorName) {
+        if(!isAdmin(user)){
+            throw new AccessDeniedException("У вас нет прав изменять исполнителя задачи");
+        }
+
+        if(!userService.existsByEmail(executorName)){
+            throw new EntityNotFoundException("Юзера с таким email не существует");
+        }
+
+        Task task = getExistTask(taskId);
+        task.setExecutor(userMapper.toUser(userService.getUserByEmail(executorName)));
+        Task savedTask = taskRepository.save(task);
+
+        return taskMapper.toTaskDto(savedTask);
+    }
+
     private boolean isAdmin(UserDetails user) {
         return user.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+                .anyMatch(auth -> auth.getAuthority().equals("ADMIN"));
+    }
+
+    private Task getExistTask(Long id){
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Задачи с данной ID не существует"));
     }
 }

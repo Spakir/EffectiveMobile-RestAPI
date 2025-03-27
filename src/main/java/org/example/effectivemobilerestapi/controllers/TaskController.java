@@ -12,11 +12,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.AccessDeniedException;
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/task")
 public class TaskController {
 
     private final TaskService taskService;
@@ -29,7 +27,7 @@ public class TaskController {
     @PutMapping("/{id}")
     public TaskDto updateTaskDto(@AuthenticationPrincipal UserDetails user,
                                  @PathVariable("id") Long id,
-                                 @Valid @RequestBody TaskDto taskDto) throws AccessDeniedException {
+                                 @Valid @RequestBody TaskDto taskDto) {
         return taskService.updateTask(user, id, taskDto);
     }
 
@@ -59,15 +57,23 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public void deleteTask(@AuthenticationPrincipal UserDetails user,
-                           @PathVariable("id") Long id) throws AccessDeniedException {
+                           @PathVariable("id") Long id) {
 
         taskService.deleteTask(id, user);
     }
 
     @GetMapping("/{id}")
     public TaskDto getTaskById(@AuthenticationPrincipal UserDetails user,
-                            @PathVariable("id") Long id){
+                               @PathVariable("id") Long id) {
 
         return taskService.getTaskById(id);
+    }
+
+    @PutMapping("update-executor-{id}")
+    public TaskDto changeExecutor(@AuthenticationPrincipal UserDetails user,
+                                  @PathVariable("id") Long id,
+                                  @RequestParam String executorName) {
+
+        return taskService.changeExecutor(user, id, executorName);
     }
 }
