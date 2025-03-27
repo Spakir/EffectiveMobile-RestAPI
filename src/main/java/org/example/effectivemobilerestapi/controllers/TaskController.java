@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/task")
 @Validated
-@Tag(name = "Task API")
+@Tag(name = "Task API",description = "API для работы с задачами")
 public class TaskController {
 
     private final TaskService taskService;
