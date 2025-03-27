@@ -3,8 +3,9 @@ package org.example.effectivemobilerestapi.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.effectivemobilerestapi.enums.Role;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode
 @ToString
@@ -23,15 +24,17 @@ public class User {
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false, length = 200)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Task> createdTasks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "executor",fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "executor", fetch = FetchType.EAGER)
     private List<Task> assignedTasks = new ArrayList<>();
 }
