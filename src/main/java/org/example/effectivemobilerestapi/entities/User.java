@@ -13,6 +13,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Table(name = "users", schema = "public")
 @Getter
+@Setter
 public class User {
 
     @Id
@@ -20,15 +21,12 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 255)
-    @Setter
     private String email;
 
     @Column(nullable = false,length = 200)
-    @Setter
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Setter
     private Role role;
 
     @OneToMany(mappedBy = "author",fetch = FetchType.EAGER)
