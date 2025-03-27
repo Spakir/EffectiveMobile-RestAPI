@@ -27,19 +27,10 @@ public interface TaskMapper {
     @Mapping(target = "comments", ignore = true)
     Task toTask(TaskDto taskDto, @Context UserService userService, @Context UserMapper userMapper);
 
-    @Mapping(target = "id", ignore = true) // ID не обновляем
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "author", ignore = true)
     @Mapping(target = "executor", ignore = true)
     void updateTaskFromDTO(TaskDto taskDto, @MappingTarget Task task);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "author", ignore = true)
-    @Mapping(target = "executor", source = "executor", qualifiedByName = "mapUserFromEmail")
-    @Mapping(target = "comments", ignore = true)
-    void updateTaskFromDto(TaskDto taskDto,
-                           @MappingTarget Task task,
-                           @Context UserService userService,
-                           @Context UserMapper userMapper);
 
     @Named("mapCommentsToDto")
     default List<CommentDto> mapCommentsToDto(List<Comment> comments) {
