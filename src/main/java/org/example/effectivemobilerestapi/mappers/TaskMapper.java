@@ -42,8 +42,8 @@ public interface TaskMapper {
                     CommentDto dto = new CommentDto();
                     dto.setId(comment.getId());
                     dto.setText(comment.getText());
-                    dto.setAuthor(comment.getAuthor().getEmail());
-                    dto.setTaskId(comment.getTask().getId());
+                    dto.setAuthor(comment.getAuthor() != null ? comment.getAuthor().getEmail() : null);
+                    dto.setTaskId(comment.getTask() != null ? comment.getTask().getId() : null);
                     dto.setCreatedAt(comment.getCreatedAt());
                     return dto;
                 })
