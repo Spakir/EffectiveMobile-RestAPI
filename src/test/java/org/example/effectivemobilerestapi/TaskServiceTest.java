@@ -43,9 +43,6 @@ class TaskServiceImplTest {
     @Mock
     private UserService userService;
 
-    @Mock
-    private UserMapper userMapper;
-
     @InjectMocks
     private TaskServiceImpl taskService;
 
