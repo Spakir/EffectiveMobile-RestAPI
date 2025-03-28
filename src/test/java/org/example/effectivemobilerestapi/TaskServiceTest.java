@@ -8,7 +8,6 @@ import org.example.effectivemobilerestapi.enums.Priority;
 import org.example.effectivemobilerestapi.enums.Role;
 import org.example.effectivemobilerestapi.enums.Status;
 import org.example.effectivemobilerestapi.mappers.TaskMapper;
-import org.example.effectivemobilerestapi.mappers.UserMapper;
 import org.example.effectivemobilerestapi.repositories.TaskRepository;
 import org.example.effectivemobilerestapi.services.impls.TaskServiceImpl;
 import org.example.effectivemobilerestapi.services.interfaces.UserService;
@@ -32,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TaskServiceImplTest {
+class TaskServiceTest {
 
     @Mock
     private TaskRepository taskRepository;
