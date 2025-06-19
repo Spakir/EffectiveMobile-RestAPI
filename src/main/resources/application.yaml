@@ -16,7 +16,7 @@ spring:
   security:
     jwt:
       secret-key: aVeryStrongAndSecureSecretKeyThatIsAtLeast32CharactersLong
-      expiration-time: 86400000
+      expiration-time: 8640000
 
   liquibase:
     enabled: true
